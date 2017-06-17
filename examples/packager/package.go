@@ -15,7 +15,7 @@ func main() {
 	output := os.Args[1]
 	files := os.Args[2:]
 	dbFile, err := os.Create(output)
-	db := dibba.NewDibba(dbFile)
+	db := dibba.NewWriter(dbFile)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -13,7 +13,7 @@ var (
 	// already exists in a package.
 	ErrFileAlreadyExists = errors.New("File already exists")
 
-	// ErrAlreadyCommitted is returned when Commit is called on a DibbaWriter struct again.
+	// ErrAlreadyCommitted is returned when Commit is called on a Writer struct again.
 	ErrAlreadyCommitted = errors.New("Already committed")
 
 	// ErrFileNotFound is returned when a given file is not found in the given package.

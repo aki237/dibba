@@ -13,19 +13,19 @@ type fileBounds struct {
 	length   int64
 }
 
-// DibbaReader is used to parse and read files from a givem dibba package from the io.ReadSeeker
-type DibbaReader struct {
+// Reader is used to parse and read files from a givem dibba package from the io.ReadSeeker
+type Reader struct {
 	box io.ReadSeeker
 	fb  []fileBounds
 }
 
-// NewDibbaReader is used to create new DibbaReader instance for a given io.ReadSeeker.
-func NewDibbaReader(rd io.ReadSeeker) *DibbaReader {
-	return &DibbaReader{box: rd}
+// NewReader is used to create new Reader instance for a given io.ReadSeeker.
+func NewReader(rd io.ReadSeeker) *Reader {
+	return &Reader{box: rd}
 }
 
 // Parse is used to parse the underlying io.ReadSeeker and store the filebounds.
-func (db *DibbaReader) Parse() error {
+func (db *Reader) Parse() error {
 	if err := db.checkIntegrity(); err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func (db *DibbaReader) Parse() error {
 
 // Open is used to get the File struct for the given filename.
 // The underlying Reader can be used to read contents from a file.
-func (db *DibbaReader) Open(filename string) (*File, error) {
+func (db *Reader) Open(filename string) (*File, error) {
 	for _, val := range db.fb {
 		if val.filename == filename {
 			s := &SectionReader{db: db, nth: val.start, till: val.length + val.start}
@@ -84,7 +84,7 @@ func (db *DibbaReader) Open(filename string) (*File, error) {
 
 // checkIntegrity method returns boolean indicating whether the Dibba
 // reader passed is consistent
-func (db *DibbaReader) checkIntegrity() error {
+func (db *Reader) checkIntegrity() error {
 	_, err := db.box.Seek(0, io.SeekStart)
 	if err != nil {
 		return err
@@ -94,7 +94,7 @@ func (db *DibbaReader) checkIntegrity() error {
 	if err != nil {
 		return err
 	}
-	if string(p) != string(DIBBA_HEADER) {
+	if string(p) != string(dibbaHeader) {
 		return ErrMalformed
 	}
 	_, err = db.box.Seek(-1, io.SeekEnd)
@@ -106,7 +106,7 @@ func (db *DibbaReader) checkIntegrity() error {
 	if err != nil {
 		return err
 	}
-	if string(p) != string(DIBBA_ENDER) {
+	if string(p) != string(dibbaEnder) {
 		return ErrMalformed
 	}
 	return nil

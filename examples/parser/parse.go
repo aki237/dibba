@@ -20,7 +20,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	d := dibba.NewDibbaReader(f)
+	d := dibba.NewReader(f)
 	err = d.Parse()
 	if err != nil {
 		fmt.Println(err)

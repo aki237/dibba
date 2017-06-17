@@ -5,9 +5,9 @@ import (
 )
 
 // SectionReader is a struct obeying the io.Reader interface
-// used to read the section of a given io.ReadSeeker (DibbaReader).
+// used to read the section of a given io.ReadSeeker (dibba.Reader).
 type SectionReader struct {
-	db   *DibbaReader
+	db   *Reader
 	nth  int64
 	till int64
 }
