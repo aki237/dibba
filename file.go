@@ -7,11 +7,13 @@ import (
 	"io"
 )
 
+// File is a struct denoting a Dibba file.
 type File struct {
 	filename string
 	contents io.Reader
 }
 
+// GetReader method returns the underlying io.Reader of the file.
 func (f *File) GetReader() io.Reader {
 	return f.contents
 }

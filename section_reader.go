@@ -4,12 +4,16 @@ import (
 	"io"
 )
 
+// SectionReader is a struct obeying the io.Reader interface
+// used to read the section of a given io.ReadSeeker (DibbaReader).
 type SectionReader struct {
 	db   *DibbaReader
 	nth  int64
 	till int64
 }
 
+// Read is the method of SectionReader that makes it compatible with io.Reader interface.
+// It reads only a section of a file specified in the unexported fields on the struct.
 func (s *SectionReader) Read(p []byte) (int, error) {
 	if s.nth >= s.till {
 		return 0, io.EOF

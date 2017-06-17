@@ -5,23 +5,26 @@ import (
 	"io"
 )
 
+// fileBounds struct contains the file boundaries (start offsets and length of the file)
+// corresponding to the file in the package.
 type fileBounds struct {
 	filename string
 	start    int64
 	length   int64
 }
 
+// DibbaReader is used to parse and read files from a givem dibba package from the io.ReadSeeker
 type DibbaReader struct {
 	box io.ReadSeeker
 	fb  []fileBounds
 }
 
-// NewDibbaReader
+// NewDibbaReader is used to create new DibbaReader instance for a given io.ReadSeeker.
 func NewDibbaReader(rd io.ReadSeeker) *DibbaReader {
 	return &DibbaReader{box: rd}
 }
 
-// Parse
+// Parse is used to parse the underlying io.ReadSeeker and store the filebounds.
 func (db *DibbaReader) Parse() error {
 	if err := db.checkIntegrity(); err != nil {
 		return err
@@ -67,6 +70,8 @@ func (db *DibbaReader) Parse() error {
 	return nil
 }
 
+// Open is used to get the File struct for the given filename.
+// The underlying Reader can be used to read contents from a file.
 func (db *DibbaReader) Open(filename string) (*File, error) {
 	for _, val := range db.fb {
 		if val.filename == filename {

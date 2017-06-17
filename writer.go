@@ -18,10 +18,12 @@ const (
 	TypeDibbaEnder
 )
 
-type Files []*File
+// files is a collection of *File structs
+type files []*File
 
+// DibbaWriter is used to add (write) files in a dibba package
 type DibbaWriter struct {
-	files Files
+	files files
 	box   io.WriteSeeker
 	fresh bool
 }
@@ -44,6 +46,8 @@ func (db *DibbaWriter) Add(file *File) error {
 	return nil
 }
 
+// Commit method is used to write all contents to a io.ReedSeeker (*os.File is compatible)
+// including the header, contents and the ender.
 func (db *DibbaWriter) Commit() error {
 	if db.fresh != true {
 		return ErrAlreadyCommitted
