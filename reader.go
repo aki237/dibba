@@ -82,6 +82,15 @@ func (db *Reader) Open(filename string) (*File, error) {
 	return nil, ErrFileNotFound
 }
 
+func (db Reader) GetFileList() []string {
+	files := make([]string, 0)
+	for _, val := range db.fb {
+		files = append(files, val.filename)
+	}
+
+	return files
+}
+
 // checkIntegrity method returns boolean indicating whether the Dibba
 // reader passed is consistent
 func (db *Reader) checkIntegrity() error {
